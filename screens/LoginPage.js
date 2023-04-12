@@ -13,6 +13,13 @@ import {
 function LoginPage({navigation}) {
   const windowHeight = Dimensions.get('window').height;
   const windowWidth = Dimensions.get('window').width;
+
+  const userDetails = {
+    name: 'john',
+    imgUrl: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+    token: 'sample',
+  };
+
   return (
     <ScrollView>
       <View style={styles.topPadding}>
@@ -53,7 +60,7 @@ function LoginPage({navigation}) {
           />
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.navigate('Home', {userDetails})}>
             <Text style={{fontSize: 24, color: '#fff'}}>Login</Text>
           </TouchableOpacity>
           <Text
