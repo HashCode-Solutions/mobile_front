@@ -53,10 +53,10 @@ setPasswordError('Password is required');
           />
 <Text style={{ color: 'red' }}>{emailError}</Text>
 
-
-<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+<View style={{ marginHorizontal: 25, marginBottom: 20 }}>
+<View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
       <TextInput
-        style={{ flex: 1, padding: 10 }}
+        style={{ flex: 1, padding: 10 , color: '#000'}}
         placeholder="New Password"
         placeholderTextColor="#000"
         keyboardType="text"
@@ -69,7 +69,7 @@ setPasswordError('Password is required');
         <Image  source={require('../assets/password.png')} style={{ width: 24, height: 24 }} />
         </View>
       </TouchableWithoutFeedback>
-    </View>
+    </View></View>
     <Text style={{ color: 'red' }}>{passwordError}</Text>
 
           <TextInput
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     margin: 24,
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#000',
   },
   input: {
     height: 60,
