@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Platform,Image,TextInput
+  Platform,Image,TextInput,TouchableWithoutFeedback
 } from 'react-native';
 
 
@@ -66,7 +66,7 @@ setPasswordError('Password is required');
       />
       <TouchableWithoutFeedback onPress={toggleShowPassword}>
         <View style={{ padding: 10 }}>
-          <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color="#000" />
+        <Image  source={require('../assets/password.png')} style={{ width: 24, height: 24 }} />
         </View>
       </TouchableWithoutFeedback>
     </View>
