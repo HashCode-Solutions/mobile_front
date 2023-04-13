@@ -17,6 +17,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import WelcomePage from './screens/WelcomePage';
 import LoginPage from './screens/LoginPage';
 import HomePage from './screens/HomePage';
+import ForgetPassword from './screens/ForgetPassword';
 import RegisterPage from './screens/RegisterPage';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
@@ -51,6 +52,11 @@ const App: () => Node = () => {
         <Stack.Screen
           name="Home"
           component={HomePage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Forget"
+          component={ForgetPassword}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
