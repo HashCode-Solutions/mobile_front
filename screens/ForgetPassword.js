@@ -24,6 +24,20 @@ function ForgetPassword({navigation}) {
             setEmailError('');
         }
     }
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+  
+    const toggleShowPassword = (text) => {
+        setPassword(text);
+        if(!text){
+setPasswordError('Password is required');
+        }else{
+            setPasswordError('');
+        }
+      setShowPassword(!showPassword);
+    };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -38,12 +52,26 @@ function ForgetPassword({navigation}) {
             onChangeText={handleEmailChange}
           />
 <Text style={{ color: 'red' }}>{emailError}</Text>
-           <TextInput
-            style={styles.input}
-            placeholder="New Password"
-            placeholderTextColor="#000"
-            secureTextEntry={true}
-          />
+
+
+<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <TextInput
+        style={{ flex: 1, padding: 10 }}
+        placeholder="New Password"
+        placeholderTextColor="#000"
+        keyboardType="text"
+        secureTextEntry={!showPassword}
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableWithoutFeedback onPress={toggleShowPassword}>
+        <View style={{ padding: 10 }}>
+          <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color="#000" />
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
+    <Text style={{ color: 'red' }}>{passwordError}</Text>
+
           <TextInput
             style={styles.input}
             placeholder="Confirm Password"
