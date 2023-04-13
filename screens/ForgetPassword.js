@@ -42,11 +42,13 @@ function ForgetPassword({navigation}) {
             style={styles.input}
             placeholder="New Password"
             placeholderTextColor="#000"
+            secureTextEntry={true}
           />
           <TextInput
             style={styles.input}
             placeholder="Confirm Password"
             placeholderTextColor="#000"
+            secureTextEntry={true}
            // onChangeText={newText => setPassword(newText)}
           />
            <TouchableOpacity style={styles.button} >
