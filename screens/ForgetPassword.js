@@ -12,6 +12,17 @@ import {
 
 
 function ForgetPassword({navigation}) {
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
+
+    const handleEmailChange=(text)=>{
+        setEmail(text);
+        if (!text) {
+          setEmailError('Email is required');
+        } else {
+            setEmailError('');
+        }
+    }
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -22,9 +33,10 @@ function ForgetPassword({navigation}) {
             placeholder="Email"
             keyboardType="text"
             placeholderTextColor="#000"
-           // onChangeText={newText => setEmail(newText)}
+            value={email}
+            onChangeText={handleEmailChange}
           />
-
+<Text style={{ color: 'red' }}>{emailError}</Text>
            <TextInput
             style={styles.input}
             placeholder="New Password"
