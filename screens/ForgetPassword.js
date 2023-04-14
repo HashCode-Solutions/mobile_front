@@ -25,12 +25,12 @@ function ForgetPassword({navigation}) {
         }
     }
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);//false means showing pasword
     const [passwordError, setPasswordError] = useState('');
 
     const passwordImage = showPassword
-    ? require('../assets/password-hide.png')//if true
-    : require('../assets/password-show.png')//otherwise
+    ? require('../assets/password-show.png')//if true
+    : require('../assets/password-hide.png')//otherwise
   
     const toggleShowPassword = (text) => {
         setPassword(text);
