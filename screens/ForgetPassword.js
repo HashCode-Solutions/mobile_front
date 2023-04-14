@@ -64,6 +64,14 @@ confirmsetPasswordError('Password is required');
 
     };
 
+    const[checkequal,setcheckequal]=useState('');
+const checkPasswordsAreTheSame=()=>{
+if(setPassword==confirmsetPassword){
+setcheckequal('');
+}else{
+  setcheckequal('Passwords are not equal');
+}
+}
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -88,7 +96,7 @@ confirmsetPasswordError('Password is required');
         keyboardType="text"
         secureTextEntry={!showPassword}
         value={password}
-        onChangeText={confirmsetPassword}
+        onChangeText={setPassword}
       />
       <TouchableWithoutFeedback onPress={toggleShowPassword}>
         <View style={{ padding: 10 }}>
@@ -107,10 +115,10 @@ confirmsetPasswordError('Password is required');
       style={{ flex: 1, padding: 10 , color: '#000'}}
       placeholder="Confirm Password"
       placeholderTextColor="#000"
-      keyboardType="tpassword"
+      keyboardType="text"
       secureTextEntry={!confirmshowPassword}
       value={confirmpassword}
-      onChangeText={setPassword}
+      onChangeText={confirmsetPassword}
     />
     <TouchableWithoutFeedback onPress={toggleConfirmShowPassword}>
       <View style={{ padding: 10 }}>
@@ -120,7 +128,7 @@ confirmsetPasswordError('Password is required');
   </View>
 </View>
 <Text style={{ color: 'red' }}>{confirmpasswordError}</Text>
-
+<Text style={{ color: 'red' }}>{checkequal}</Text>
 
 
     {/* Buttons */}
