@@ -118,7 +118,7 @@ function ForgetPassword({ navigation }) {
       }else{
         Alert.alert(
           'Server Error',
-          'Did not get input to server',
+          'Response is empty',
           [
             {
               text: 'OK',
