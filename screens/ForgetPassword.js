@@ -88,7 +88,7 @@ confirmsetPasswordError('Password is required');
         keyboardType="text"
         secureTextEntry={!showPassword}
         value={password}
-        onChangeText={setConfirmPassword}
+        onChangeText={confirmsetPassword}
       />
       <TouchableWithoutFeedback onPress={toggleShowPassword}>
         <View style={{ padding: 10 }}>
@@ -111,7 +111,7 @@ confirmsetPasswordError('Password is required');
         keyboardType="text"
         secureTextEntry={!confirmshowPassword}
         value={confirmpassword}
-        onChangeText={setPassword}
+        onChangeText={confirmsetPassword}
       />
       <TouchableWithoutFeedback onPress={toggleConfirmShowPassword}>
         <View style={{ padding: 10 }}>
