@@ -101,25 +101,26 @@ confirmsetPasswordError('Password is required');
 
 
     //confirm password
-
     <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
-<View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
-      <TextInput
-        style={{ flex: 1, padding: 10 , color: '#000'}}
-        placeholder="Confirm Password"
-        placeholderTextColor="#000"
-        keyboardType="text"
-        secureTextEntry={!confirmshowPassword}
-        value={confirmpassword}
-        onChangeText={confirmsetPassword}
-      />
-      <TouchableWithoutFeedback onPress={toggleConfirmShowPassword}>
-        <View style={{ padding: 10 }}>
-        <Image  source={confirmpasswordImage} style={{ width: 40, height: 24 }} />
-        </View>
-      </TouchableWithoutFeedback>
-    </View></View>
-    <Text style={{ color: 'red' }}>{confirmpasswordError}</Text>
+  <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
+    <TextInput
+      style={{ flex: 1, padding: 10 , color: '#000'}}
+      placeholder="Confirm Password"
+      placeholderTextColor="#000"
+      keyboardType="text"
+      secureTextEntry={!confirmshowPassword}
+      value={confirmpassword}
+      onChangeText={setPassword}
+    />
+    <TouchableWithoutFeedback onPress={toggleConfirmShowPassword}>
+      <View style={{ padding: 10 }}>
+        <Image source={confirmpasswordImage} style={{ width: 40, height: 24 }} />
+      </View>
+    </TouchableWithoutFeedback>
+  </View>
+</View>
+<Text style={{ color: 'red' }}>{confirmpasswordError}</Text>
+
 
 
     //button
