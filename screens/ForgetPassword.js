@@ -41,6 +41,28 @@ setPasswordError('Password is required');
         }
       setShowPassword(!showPassword);
     };
+      //confirm password
+
+      const [confirmpassword, confirmsetPassword] = useState('');
+      const [confirmshowPassword, confirmsetShowPassword] = useState(false);//false means showing pasword
+      const [confirmpasswordError, confirmsetPasswordError] = useState('');
+      
+
+      const confirmpasswordImage = confirmshowPassword
+    ? require('../assets/password-show.png')//if true
+    : require('../assets/password-hide.png')//otherwise
+      
+      
+      const toggleConfirmShowPassword = (text) => {
+        confirmsetPassword(text);
+        if(!text){
+confirmsetPasswordError('Password is required');
+        }else{
+            confirmsetPasswordError('');
+        }
+      confirmsetShowPassword(!confirmshowPassword);
+
+    };
 
   return (
     <ScrollView>
@@ -66,7 +88,7 @@ setPasswordError('Password is required');
         keyboardType="text"
         secureTextEntry={!showPassword}
         value={password}
-        onChangeText={setPassword}
+        onChangeText={setConfirmPassword}
       />
       <TouchableWithoutFeedback onPress={toggleShowPassword}>
         <View style={{ padding: 10 }}>
@@ -76,13 +98,32 @@ setPasswordError('Password is required');
     </View></View>
     <Text style={{ color: 'red' }}>{passwordError}</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            placeholderTextColor="#000"
-            secureTextEntry={true}
-           // onChangeText={newText => setPassword(newText)}
-          />
+
+
+    //confirm password
+
+    <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
+<View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
+      <TextInput
+        style={{ flex: 1, padding: 10 , color: '#000'}}
+        placeholder="Confirm Password"
+        placeholderTextColor="#000"
+        keyboardType="text"
+        secureTextEntry={!confirmshowPassword}
+        value={confirmpassword}
+        onChangeText={setPassword}
+      />
+      <TouchableWithoutFeedback onPress={toggleConfirmShowPassword}>
+        <View style={{ padding: 10 }}>
+        <Image  source={confirmpasswordImage} style={{ width: 40, height: 24 }} />
+        </View>
+      </TouchableWithoutFeedback>
+    </View></View>
+    <Text style={{ color: 'red' }}>{confirmpasswordError}</Text>
+
+
+    //button
+
            <TouchableOpacity style={styles.button} >
             <Text style={{fontSize: 24, color: '#fff'}}>Reset Password</Text>
           </TouchableOpacity>
