@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Platform, Image, TextInput, TouchableWithoutFeedback,Alert
+  Platform, Image, TextInput, TouchableWithoutFeedback, Alert
 } from 'react-native';
 
 function ForgetPassword({ navigation }) {
@@ -16,22 +16,33 @@ function ForgetPassword({ navigation }) {
   const isEmailValid = (email) => {
     // Regular expression to validate email address
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    
+
     return emailRegex.test(email);
   }
 
 
   const handleEmailChange = (text) => {
     setEmail(text);
-    if (!text) {
+    {/*if (!text) {
       setEmailError('Email is required');
     } else {
       setEmailError('');
     }
+
     if (isEmailValid(text)) {
       setEmailError('');
     } else {
       setEmailError('Email is not valid');
+    }*/}
+
+
+    if (!text) {
+      setEmailError('*Email is required');
+    } else if (!isEmailValid(text)) {
+      // setEmailError('');
+      setEmailError('*Email is not valid');
+    } else {
+      setEmailError('');
     }
 
 
@@ -47,7 +58,7 @@ function ForgetPassword({ navigation }) {
   const toggleShowPassword = (text) => {
     setPassword(text);
     if (!text) {
-      setPasswordError('Password is required');
+      setPasswordError('*Please enter the new password for the login');
     } else {
       setPasswordError('');
     }
@@ -68,7 +79,7 @@ function ForgetPassword({ navigation }) {
   const toggleConfirmShowPassword = (text) => {
     confirmsetPassword(text);
     if (!text) {
-      confirmsetPasswordError('Password is required');
+      confirmsetPasswordError('*Password is required');
     } else {
       confirmsetPasswordError('');
     }
@@ -83,49 +94,56 @@ function ForgetPassword({ navigation }) {
   const createNewPassword = async () => {
     try {
 
-      const response = await fetch(
-        `https://mobileback-diwisawi-production.up.railway.app/user/forget-password/` + email, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          password: newPassword,
-        }),
-      }
-      );
-      const jsonk = await response.json();
       if (newPassword == confirmpassword) {
         setcheckequal('');
 
-        console.log(email);
-        console.log(newPassword);
-        console.log(confirmpassword);
+        const response = await fetch(
+          `https://mobileback-diwisawi-production.up.railway.app/user/forget-password/` + email, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: newPassword,
+          }),
+        }
+        );
 
-        console.log(checkequal);
+        const jsonk = await response.json();
 
-        
-        
-        console.log(jsonk);
-        console.log(jsonk.first_name);
+        if (jsonk.message === "Can't find user. Please Register!!!") {
+          Alert.alert(
+            'Invalid Data',
+            'Cannot find user. Please Register!!!',
+            [
+              {
+                text: 'OK',
+                onPress: () => console.log('OK Pressed')
+              }
+            ]
+          );
+        } else {
+          navigation.navigate('Login');
+        }
+
+        // if (!(jsonk.length === 0)) {
+        //   navigation.navigate('Login');
+        // } else {
+        //   Alert.alert(
+        //     'Server Error',
+        //     'Response is empty',
+        //     [
+        //       {
+        //         text: 'OK',
+        //         onPress: () => console.log('OK Pressed')
+        //       }
+        //     ]
+        //   );
+        // }
 
       } else {
-        setcheckequal('Passwords are not equal');
-      }
-      if (!(jsonk.length === 0)) { 
-        navigation.navigate('Login'); 
-      }else{
-        Alert.alert(
-          'Server Error',
-          'Response is empty',
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed')
-            }
-          ]
-        );
+        setcheckequal('*Passwords are not equal');
       }
 
     } catch (error) {
@@ -137,23 +155,23 @@ function ForgetPassword({ navigation }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.topic}>Create a new password</Text>
+        <Text style={styles.topic}>Forget Password</Text>
 
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="Email*"
           keyboardType="text"
           placeholderTextColor="#000"
           value={email}
           onChangeText={handleEmailChange}
         />
-        <Text style={{ color: 'red',marginLeft:30,marginBottom:10}}>{emailError}</Text>
+        <Text style={{ color: '#000', marginLeft: 30, marginBottom: 10 }}>{emailError}</Text>
 
         <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
             <TextInput
               style={{ flex: 1, padding: 10, color: '#000' }}
-              placeholder="New Password"
+              placeholder="New Password*"
               placeholderTextColor="#000"
               keyboardType="text"
               secureTextEntry={!showPassword}
@@ -166,16 +184,16 @@ function ForgetPassword({ navigation }) {
               </View>
             </TouchableWithoutFeedback>
           </View></View>
-        <Text style={{ color: 'red',marginLeft:30,marginBottom:10 }}>{passwordError}</Text>
+        <Text style={{ color: '#000', marginLeft: 30, marginBottom: 10 }}>{passwordError}</Text>
 
 
 
         {/* Confirm Password */}
-        <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
+        <View style={{ marginHorizontal: 25}}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
             <TextInput
               style={{ flex: 1, padding: 10, color: '#000' }}
-              placeholder="Confirm Password"
+              placeholder="Confirm Password*"
               placeholderTextColor="#000"
               keyboardType="text"
               secureTextEntry={!confirmshowPassword}
@@ -189,8 +207,8 @@ function ForgetPassword({ navigation }) {
             </TouchableWithoutFeedback>
           </View>
         </View>
-        <Text style={{ color: 'red',marginLeft:30,marginBottom:10 }}>{confirmpasswordError}</Text>
-        <Text style={{ color: 'red',marginLeft:30,marginBottom:10}}>{checkequal}</Text>
+        <Text style={{ color: '#000', marginLeft: 30, marginBottom: 15 }}>{confirmpasswordError}</Text>
+        <Text style={{ color: 'red', marginLeft: 30, marginBottom: 15}}>{checkequal}</Text>
 
 
         {/* Buttons */}
@@ -216,8 +234,8 @@ const styles = StyleSheet.create({
   },
   topic: {
     margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 40,
+   textAlign:'center',
     color: '#000',
   },
   input: {
