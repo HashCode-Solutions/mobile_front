@@ -6,12 +6,20 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Platform, Image, TextInput, TouchableWithoutFeedback
+  Platform, Image, TextInput, TouchableWithoutFeedback,Alert
 } from 'react-native';
 
 function ForgetPassword({ navigation }) {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+
+  const isEmailValid = (email) => {
+    // Regular expression to validate email address
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    
+    return emailRegex.test(email);
+  }
+
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -20,6 +28,13 @@ function ForgetPassword({ navigation }) {
     } else {
       setEmailError('');
     }
+    if (isEmailValid(text)) {
+      setEmailError('');
+    } else {
+      setEmailError('Email is not valid');
+    }
+
+
   }
   const [newPassword, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);//false means showing pasword
@@ -62,33 +77,60 @@ function ForgetPassword({ navigation }) {
   };
 
   const [checkequal, setcheckequal] = useState('');
-  const checkPasswordsAreTheSame = () => {
-    if (newPassword == confirmpassword) {
-      setcheckequal('');
-    } else {
-      setcheckequal('Passwords are not equal');
-    }
-  }
 
-  {/*fetch api for forget password*/}
+
+  {/*fetch api for forget password*/ }
   const createNewPassword = async () => {
-      try {
-        {/*const response = await fetch(
-          `https://mobileback-diwisawi-production.up.railway.app/user/forget-password/`+email,{
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              password: newPassword,
-            }),
-          }
-        );*/}
-        console.log("clicked");
-      } catch (error) {
-        console.error(error);
+    try {
+
+      const response = await fetch(
+        `https://mobileback-diwisawi-production.up.railway.app/user/forget-password/` + email, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: newPassword,
+        }),
       }
+      );
+      const jsonk = await response.json();
+      if (newPassword == confirmpassword) {
+        setcheckequal('');
+
+        console.log(email);
+        console.log(newPassword);
+        console.log(confirmpassword);
+
+        console.log(checkequal);
+
+        
+        
+        console.log(jsonk);
+        console.log(jsonk.first_name);
+
+      } else {
+        setcheckequal('Passwords are not equal');
+      }
+      if (!(jsonk.length === 0)) { 
+        navigation.navigate('Login'); 
+      }else{
+        Alert.alert(
+          'Server Error',
+          'Did not get input to server',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed')
+            }
+          ]
+        );
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 
@@ -105,7 +147,7 @@ function ForgetPassword({ navigation }) {
           value={email}
           onChangeText={handleEmailChange}
         />
-        <Text style={{ color: 'red' }}>{emailError}</Text>
+        <Text style={{ color: 'red',marginLeft:30,marginBottom:10}}>{emailError}</Text>
 
         <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
@@ -124,7 +166,7 @@ function ForgetPassword({ navigation }) {
               </View>
             </TouchableWithoutFeedback>
           </View></View>
-        <Text style={{ color: 'red' }}>{passwordError}</Text>
+        <Text style={{ color: 'red',marginLeft:30,marginBottom:10 }}>{passwordError}</Text>
 
 
 
@@ -147,8 +189,8 @@ function ForgetPassword({ navigation }) {
             </TouchableWithoutFeedback>
           </View>
         </View>
-        <Text style={{ color: 'red' }}>{confirmpasswordError}</Text>
-        <Text style={{ color: 'red' }}>{checkequal}</Text>
+        <Text style={{ color: 'red',marginLeft:30,marginBottom:10 }}>{confirmpasswordError}</Text>
+        <Text style={{ color: 'red',marginLeft:30,marginBottom:10}}>{checkequal}</Text>
 
 
         {/* Buttons */}
