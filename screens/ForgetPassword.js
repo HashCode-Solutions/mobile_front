@@ -70,7 +70,7 @@ setPasswordError('Password is required');
       />
       <TouchableWithoutFeedback onPress={toggleShowPassword}>
         <View style={{ padding: 10 }}>
-        <Image  source={require({passwordImage})} style={{ width: 40, height: 24 }} />
+        <Image  source={passwordImage} style={{ width: 40, height: 24 }} />
         </View>
       </TouchableWithoutFeedback>
     </View></View>
