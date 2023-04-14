@@ -27,6 +27,10 @@ function ForgetPassword({navigation}) {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+
+    const passwordImage = showPassword
+    ? require('../assets/password-hide.png')//if true
+    : require('../assets/password-show.png')//otherwise
   
     const toggleShowPassword = (text) => {
         setPassword(text);
@@ -66,7 +70,7 @@ setPasswordError('Password is required');
       />
       <TouchableWithoutFeedback onPress={toggleShowPassword}>
         <View style={{ padding: 10 }}>
-        <Image  source={require('../assets/password.png')} style={{ width: 40, height: 24 }} />
+        <Image  source={require({passwordImage})} style={{ width: 40, height: 24 }} />
         </View>
       </TouchableWithoutFeedback>
     </View></View>
