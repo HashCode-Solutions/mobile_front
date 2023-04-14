@@ -100,14 +100,14 @@ confirmsetPasswordError('Password is required');
 
 
 
-    //confirm password
+   {/* Confirm Password */}
     <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
   <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
     <TextInput
       style={{ flex: 1, padding: 10 , color: '#000'}}
       placeholder="Confirm Password"
       placeholderTextColor="#000"
-      keyboardType="text"
+      keyboardType="tpassword"
       secureTextEntry={!confirmshowPassword}
       value={confirmpassword}
       onChangeText={setPassword}
@@ -123,7 +123,7 @@ confirmsetPasswordError('Password is required');
 
 
 
-    //button
+    {/* Buttons */}
 
            <TouchableOpacity style={styles.button} >
             <Text style={{fontSize: 24, color: '#fff'}}>Reset Password</Text>
