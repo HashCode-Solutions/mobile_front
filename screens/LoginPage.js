@@ -78,6 +78,19 @@ function LoginPage({navigation}) {
             onPress={() => navigation.navigate('Register')}>
             <Text style={{fontSize: 24, color: '#fff'}}>Sign Up</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Forget')}>
+        <Text
+          style={{
+            color: '#000',
+            fontSize: 15,
+            marginBottom: 20,
+            marginLeft: 30,
+            marginTop: 30,
+          }}>
+          Forgot Password?
+        </Text>
+      </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

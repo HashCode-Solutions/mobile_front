@@ -173,6 +173,7 @@ function RegisterPage({navigation}) {
             }}>
             Already have an account?
           </Text>
+          
         </View>
       </View>
     </ScrollView>
