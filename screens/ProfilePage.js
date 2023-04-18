@@ -1,7 +1,7 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 
-function ProfilePage({route}) {
+function ProfilePage({route,navigation}) {
   //   let {userDetails} = route.params;
   const userDetails = {
     name: 'john',
@@ -17,7 +17,18 @@ function ProfilePage({route}) {
             uri: userDetails.imgUrl,
           }}
         />
-
+  <TouchableOpacity onPress={() => navigation.navigate('Update')}>
+        <Text
+          style={{
+            color: '#000',
+            fontSize: 15,
+            marginBottom: 20,
+           alignItems:'center',
+            marginTop: 30,
+          }}>
+          Edit user 
+        </Text>
+      </TouchableOpacity>
         <Text
           style={{color: '#000', fontSize: 25, marginTop: 30, marginLeft: 13}}>
           {userDetails.name}
@@ -58,6 +69,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 100,
+    alignItems:'center',
   },
 });
 

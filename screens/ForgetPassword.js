@@ -94,6 +94,20 @@ function ForgetPassword({ navigation }) {
   const createNewPassword = async () => {
     try {
 
+      if(!confirmpassword||!email||!newPassword){
+  
+        Alert.alert(
+          'Error',
+          'Enter the missing data!!!',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed')
+            }
+          ]
+        );
+      }
+
       if (newPassword == confirmpassword) {
         setcheckequal('');
 
@@ -189,7 +203,7 @@ function ForgetPassword({ navigation }) {
 
 
         {/* Confirm Password */}
-        <View style={{ marginHorizontal: 25}}>
+        <View style={{ marginHorizontal: 25 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
             <TextInput
               style={{ flex: 1, padding: 10, color: '#000' }}
@@ -208,7 +222,7 @@ function ForgetPassword({ navigation }) {
           </View>
         </View>
         <Text style={{ color: '#000', marginLeft: 30, marginBottom: 15 }}>{confirmpasswordError}</Text>
-        <Text style={{ color: 'red', marginLeft: 30, marginBottom: 15}}>{checkequal}</Text>
+        <Text style={{ color: 'red', marginLeft: 30, marginBottom: 15 }}>{checkequal}</Text>
 
 
         {/* Buttons */}
@@ -235,7 +249,7 @@ const styles = StyleSheet.create({
   topic: {
     margin: 24,
     fontSize: 40,
-   textAlign:'center',
+    textAlign: 'center',
     color: '#000',
   },
   input: {

@@ -17,6 +17,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import WelcomePage from './screens/WelcomePage';
 import LoginPage from './screens/LoginPage';
 import HomePage from './screens/HomePage';
+import UpdatePage from './screens/UpdateUser';
 import ForgetPassword from './screens/ForgetPassword';
 import RegisterPage from './screens/RegisterPage';
 import AllProjectsPage from './screens/AllProjectsPage';
@@ -81,6 +82,11 @@ const App: () => Node = () => {
         <Stack.Screen
           name="Forget"
           component={ForgetPassword}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Update"
+          component={UpdatePage}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
