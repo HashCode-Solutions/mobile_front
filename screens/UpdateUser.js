@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 function UpdateUser(navigate) {
+ 
 
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -26,6 +27,24 @@ function UpdateUser(navigate) {
     const [showPassword, setShowPassword] = useState(false);//false means showing pasword
     const [passwordError, setPasswordError] = useState('');
 
+
+    const [confirmpassword, confirmsetPassword] = useState('');
+    const [confirmshowPassword, confirmsetShowPassword] = useState(false);//false means showing pasword
+    const [confirmpasswordError, confirmsetPasswordError] = useState('');
+
+    const passwordImage = showPassword
+    ? require('../assets/password-show.png')//if false
+    : require('../assets/password-hide.png')//otherwise
+
+  const toggleShowPassword = (text) => {
+    setPassword(text);
+    if (!text) {
+      setPasswordError('*Please enter the new password for the login');
+    } else {
+      setPasswordError('');
+    }
+    setShowPassword(!showPassword);
+  };
 
     const handleFirstName = (text) => {
         setFirstName(text);
@@ -77,6 +96,98 @@ function UpdateUser(navigate) {
 
     }
 
+   
+
+      const confirmpasswordImage = confirmshowPassword
+    ? require('../assets/password-show.png')//if false
+    : require('../assets/password-hide.png')//otherwise
+
+
+  const toggleConfirmShowPassword = (text) => {
+    confirmsetPassword(text);
+    if (!text) {
+      confirmsetPasswordError('*Password is required');
+    } else {
+      confirmsetPasswordError('');
+    }
+    confirmsetShowPassword(!confirmshowPassword);
+
+  };
+
+
+  const updateUser= async () => {
+    try {
+
+      if(!confirmpassword||!email||!newPassword||!phoneNumber||!firstName||!lastName){
+  
+        Alert.alert(
+          'Error',
+          'Enter the missing data!!!',
+          [
+            {
+              text: 'OK',
+              onPress: () => console.log('OK Pressed')
+            }
+          ]
+        );
+      }
+
+      if (newPassword == confirmpassword) {
+        setcheckequal('');
+
+        const response = await fetch(
+          `https://mobileback-diwisawi-production.up.railway.app/user/forget-password/` + email, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: newPassword,
+          }),
+        }
+        );
+
+        const jsonk = await response.json();
+
+        if (jsonk.message === "Can't find user. Please Register!!!") {
+          Alert.alert(
+            'Invalid Data',
+            'Cannot find user. Please Register!!!',
+            [
+              {
+                text: 'OK',
+                onPress: () => console.log('OK Pressed')
+              }
+            ]
+          );
+        } else {
+          navigation.navigate('Login');
+        }
+
+        // if (!(jsonk.length === 0)) {
+        //   navigation.navigate('Login');
+        // } else {
+        //   Alert.alert(
+        //     'Server Error',
+        //     'Response is empty',
+        //     [
+        //       {
+        //         text: 'OK',
+        //         onPress: () => console.log('OK Pressed')
+        //       }
+        //     ]
+        //   );
+        // }
+
+      } else {
+        setcheckequal('*Passwords are not equal');
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
     return (
         <ScrollView>
@@ -125,12 +236,13 @@ function UpdateUser(navigate) {
                         placeholder="Phone Number*"
                         placeholderTextColor="#000"
                         keyboardType="text"
-
+                        value={phoneNumber}
+                        onChangeText={handlePhoneNumber}
 
                     />
 
                 </View>
-                <Text style={{ color: '#000', marginBottom: 10, marginLeft: 10, marginTop: 1 }}>{emailError}</Text>
+                <Text style={{ color: '#000', marginBottom: 10, marginLeft: 10, marginTop: 1 }}>{phoneNumberError}</Text>
 
             </View>
 
@@ -142,41 +254,56 @@ function UpdateUser(navigate) {
                         placeholder="Email*"
                         placeholderTextColor="#000"
                         keyboardType="text"
-                        value={phoneNumber}
-                        onChangeText={handlePhoneNumber}
+                        value={email}
+                        onChangeText={handleEmailChange}
                     />
 
 
                 </View>
-                <Text style={{ color: '#000', marginBottom: 10, marginLeft: 10, marginTop: 1 }}>{phoneNumberError}</Text>
+                <Text style={{ color: '#000', marginBottom: 10, marginLeft: 10, marginTop: 1 }}>{emailError}</Text>
             </View>
 
-            <View style={{ marginHorizontal: 25, marginBottom: 20, marginTop: 20 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
-                    <TextInput
-                        style={{ flex: 1, padding: 10, color: '#000' }}
-                        placeholder=" Password*"
-                        placeholderTextColor="#000"
-                        keyboardType="text"
+            <View style={{ marginHorizontal: 25, marginBottom: 20 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
+            <TextInput
+              style={{ flex: 1, padding: 10, color: '#000' }}
+              placeholder="New Password*"
+              placeholderTextColor="#000"
+              keyboardType="text"
+              secureTextEntry={!showPassword}
+              value={newPassword}
+              onChangeText={setPassword}
+            />
+            <TouchableWithoutFeedback onPress={toggleShowPassword}>
+              <View style={{ padding: 10 }}>
+                <Image source={passwordImage} style={{ width: 40, height: 24 }} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View></View>
+        <Text style={{ color: '#000', marginLeft: 30, marginBottom: 10 }}>{passwordError}</Text>
 
+        <View style={{ marginHorizontal: 25 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
+            <TextInput
+              style={{ flex: 1, padding: 10, color: '#000' }}
+              placeholder="Confirm Password*"
+              placeholderTextColor="#000"
+              keyboardType="text"
+              secureTextEntry={!confirmshowPassword}
+              value={confirmpassword}
+              onChangeText={confirmsetPassword}
+            />
+            <TouchableWithoutFeedback onPress={toggleConfirmShowPassword}>
+              <View style={{ padding: 10 }}>
+                <Image source={confirmpasswordImage} style={{ width: 40, height: 24 }} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </View>
+        <Text style={{ color: '#000', marginLeft: 30, marginBottom: 15 }}>{confirmpasswordError}</Text>
+      
 
-                    />
-
-                </View></View>
-
-            <View style={{ marginHorizontal: 25, marginBottom: 20, marginTop: 20 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
-                    <TextInput
-                        style={{ flex: 1, padding: 10, color: '#000' }}
-                        placeholder="Confirm Password*"
-                        placeholderTextColor="#000"
-                        keyboardType="text"
-
-
-                    />
-
-                </View></View>
-            <TouchableOpacity style={styles.button} >
+            <TouchableOpacity style={styles.button} onPress={updateUser} >
                 <Text style={{ fontSize: 24, color: '#fff' }}>Update User</Text>
             </TouchableOpacity>
 
