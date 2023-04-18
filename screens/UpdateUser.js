@@ -10,7 +10,7 @@ import {
 
 function UpdateUser(navigate) {
  
-
+    const [checkequal, setcheckequal] = useState('');
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
 
@@ -301,7 +301,7 @@ function UpdateUser(navigate) {
           </View>
         </View>
         <Text style={{ color: '#000', marginLeft: 30, marginBottom: 15 }}>{confirmpasswordError}</Text>
-      
+        <Text style={{ color: 'red', marginLeft: 30, marginBottom: 15 }}>{checkequal}</Text>
 
             <TouchableOpacity style={styles.button} onPress={updateUser} >
                 <Text style={{ fontSize: 24, color: '#fff' }}>Update User</Text>
