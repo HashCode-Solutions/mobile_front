@@ -46,6 +46,12 @@ function UpdateUser(navigate) {
     setShowPassword(!showPassword);
   };
 
+  const userDetails = {
+    name: 'john',
+    imgUrl: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+    token: 'sample',
+  };
+
     const handleFirstName = (text) => {
         setFirstName(text);
         if (!text) {
@@ -193,6 +199,14 @@ function UpdateUser(navigate) {
         <ScrollView>
 
             <Text style={styles.topic}>Update Details</Text>
+
+            <View style={styles.mainContainer}>
+            <Image
+          style={styles.imageMedium}
+          source={{
+            uri: userDetails.imgUrl,
+          }} /></View>
+
             <View style={{ marginHorizontal: 25, marginBottom: 20, marginTop: 20 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, height: 60 }}>
                     <TextInput
@@ -301,7 +315,7 @@ function UpdateUser(navigate) {
           </View>
         </View>
         <Text style={{ color: '#000', marginLeft: 30, marginBottom: 15 }}>{confirmpasswordError}</Text>
-        <Text style={{ color: 'red', marginLeft: 30, marginBottom: 15 }}>{checkequal}</Text>
+              <Text style={{ color: 'red', marginLeft: 30, marginBottom: 15 }}>{checkequal}</Text>
 
             <TouchableOpacity style={styles.button} onPress={updateUser} >
                 <Text style={{ fontSize: 24, color: '#fff' }}>Update User</Text>
@@ -352,6 +366,23 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         borderRadius: 5,
     },
+    imageMedium: {
+        width: 120,
+        height: 120,
+        borderRadius: 100,
+        alignItems:'center',
+      },
+       mainContainer: {
+        marginHorizontal: 28,
+        marginVertical: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+editText:{
+    color:'blue'
+}
+
 
 
 });

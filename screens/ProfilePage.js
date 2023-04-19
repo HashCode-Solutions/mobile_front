@@ -4,35 +4,41 @@ import {Image, ScrollView, StyleSheet, Text, View,TouchableOpacity} from 'react-
 function ProfilePage({route,navigation}) {
   //   let {userDetails} = route.params;
   const userDetails = {
-    name: 'john',
+    name: 'John Cena',
     imgUrl: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
     token: 'sample',
   };
   return (
     <ScrollView>
       <View style={styles.mainContainer}>
+        <View style={styles.picContainer}>
         <Image
           style={styles.imageMedium}
           source={{
             uri: userDetails.imgUrl,
           }}
         />
+        <View style={styles.alig}>
+         <Text
+          style={{color: '#000', fontSize: 25, marginLeft: 13}}>
+          {userDetails.name}
+        </Text>
+        </View>
   <TouchableOpacity onPress={() => navigation.navigate('Update')}>
         <Text
           style={{
-            color: '#000',
+            color: '#0d74d7',
             fontSize: 15,
-            marginBottom: 20,
+            
            alignItems:'center',
             marginTop: 30,
           }}>
-          Edit user 
+          Edit profile
         </Text>
       </TouchableOpacity>
-        <Text
-          style={{color: '#000', fontSize: 25, marginTop: 30, marginLeft: 13}}>
-          {userDetails.name}
-        </Text>
+     
+       
+        </View>
         <View style={styles.achieveContainer}>
           <Text
             style={{
@@ -70,7 +76,26 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 100,
     alignItems:'center',
+    marginTop:15,
   },
+picContainer: {
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    borderRadius: 20,
+    marginTop:20,
+    marginLeft: 20,
+    width: 180,
+    height: 250,
+     shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+   elevation: Platform.OS === 'android' ? 10 : 0,
+  },
+ 
+
 });
 
 export default ProfilePage;
