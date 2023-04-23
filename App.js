@@ -23,6 +23,8 @@ import AllProjectsPage from './screens/AllProjectsPage';
 import ProjectPage from './screens/ProjectPage';
 import ProjectStepPage from './screens/ProjectStepPage';
 import ProfilePage from './screens/ProfilePage';
+import MarketRatesPage from './screens/MarketRatesPage';
+import SingalItemPriceRatePage from './screens/SingalItemPriceRatePage';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
@@ -82,6 +84,16 @@ const App: () => Node = () => {
           name="Forget"
           component={ForgetPassword}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Market Rates"
+          component={MarketRatesPage}
+          options={{headerShown: 'Market Rates'}}
+        />
+        <Stack.Screen
+          name="Price Rates"
+          component={SingalItemPriceRatePage}
+          options={{headerShown: 'Price Rates'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
