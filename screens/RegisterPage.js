@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   ScrollView,
@@ -10,8 +11,6 @@ import {
   View,
 } from 'react-native';
 
-import axios from 'axios';
-
 function RegisterPage({navigation}) {
   const windowHeight = Dimensions.get('window').height;
   const windowWidth = Dimensions.get('window').width;
@@ -20,77 +19,78 @@ function RegisterPage({navigation}) {
   const [lastName, setLastName] = useState('');
   const [mobile, setMobile] = useState(0);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
+
+  const [userData, setUserData] = useState(null);
 
   const registerPress = async () => {
+    const isEmailValid = email => {
+      // Regular expression to validate email address
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+      return emailRegex.test(email);
+    };
     // () => navigation.navigate('Home');
     const registerBody = {
       first_name: firstName,
       last_name: lastName,
       mobile_number: mobile,
       email: email,
-      password: password,
-    };
-    const jStrRegisterBody = JSON.stringify(registerBody);
-
-    // try {
-    //   const response = await fetch(
-    //     `http://192.168.43.167:3000/register`,
-    //   );
-    //   const json = await response.json();
-
-    // } catch (error) {
-    //   console.error(error);
-    // }
-
-    axiosConfig = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      password1: password1,
+      password2: password2,
     };
 
-    // try {
-    //   const response = await axios.post(
-    //     'http://192.168.43.167:3000/register',
-    //     jStrRegisterBody,
-    //     axiosConfig,
-    //   );
-    //   if (response.ok) {
-    //     const objRes = response.json();
-    //     console.log(objRes);
-    //   } else {
-    //     const objRes = response.json();
-    //     console.log(objRes);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    if (firstName == '' || lastName == '' || mobile == '' || password1 == '') {
+      Alert.alert('Empty firlds', 'Fill all fields', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+      return;
+    }
 
-    // try {
-    //   await fetch(`http://192.168.43.167:3000/register`, {
-    //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    //     // mode: "cors", // no-cors, *cors, same-origin
-    //     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    //     // credentials: "same-origin", // include, *same-origin, omit
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       // 'Content-Type': 'application/x-www-form-urlencoded',
-    //     },
-    //     // redirect: "follow", // manual, *follow, error
-    //     // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //     body: JSON.stringify(registerBody), // body data type must match "Content-Type" header
-    //   })
-    //     .then(response => response.json())
-    //     .then(response => {
-    //       if (response.ok) {
-    //         console.log(response.token);
-    //       } else {
-    //         console.log(response);
-    //       }
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    if (!isEmailValid(email)) {
+      Alert.alert('Check Your Email', 'Email Should be valid !', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+      return;
+    }
+    if (password1 !== password2) {
+      Alert.alert("Password Doesn't match", 'Try again!', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://mobileback-diwisawi-production.up.railway.app/register`,
+        {
+          method: 'POST', // GET, POST, PUT, DELETE
+          headers: {
+            'Content-Type': 'application/json',
+          },
+
+          body: JSON.stringify(registerBody),
+        },
+      );
+
+      const jsonRes = await response.json();
+
+      if (!response.ok) {
+        Alert.alert('Something Went wrong', 'Try Again !', [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ]);
+        return;
+      }
+
+      navigation.navigate('Login', {jsonRes});
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Something Went wrong', error.message, [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+      return;
+    }
   };
 
   return (
@@ -153,12 +153,13 @@ function RegisterPage({navigation}) {
             style={styles.input}
             placeholder="Password"
             placeholderTextColor="#000"
+            onChangeText={pw => setPassword1(pw)}
           />
           <TextInput
             style={styles.input}
             placeholder="Confirm Password"
             placeholderTextColor="#000"
-            onChangeText={newText => setPassword(newText)}
+            onChangeText={pw => setPassword2(pw)}
           />
           <TouchableOpacity style={styles.loginButton} onPress={registerPress}>
             <Text style={{fontSize: 24, color: '#fff'}}>Sign Up</Text>
@@ -173,7 +174,6 @@ function RegisterPage({navigation}) {
             }}>
             Already have an account?
           </Text>
-          
         </View>
       </View>
     </ScrollView>

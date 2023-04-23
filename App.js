@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {Node} from 'react';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
@@ -30,6 +30,8 @@ import ProfilePage from './screens/ProfilePage';
 const Stack = createNativeStackNavigator();
 
 const App: () => Node = () => {
+  const [userData, setUserData] = useState(null);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -84,7 +86,7 @@ const App: () => Node = () => {
           component={ForgetPassword}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Update"
           component={UpdatePage}
           options={{headerShown: false}}
