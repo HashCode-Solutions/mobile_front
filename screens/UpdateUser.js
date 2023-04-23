@@ -1,4 +1,4 @@
-import React, { useState,useRef } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   Platform, Image, TextInput, TouchableWithoutFeedback, Alert
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function UpdateUser({navigation}) {
 
@@ -112,7 +113,18 @@ function UpdateUser({navigation}) {
 
   }
 
+  const [userDetail, setUserDetail] = useState({});
 
+  useEffect(() => {
+    async function loadUserDetail() {
+      const storedUserDetail = await AsyncStorage.getItem('userDetail');
+      if (storedUserDetail) {
+        setUserDetail(await JSON.parse(storedUserDetail));
+      }
+      console.log(await JSON.parse(storedUserDetail));
+    }
+    loadUserDetail();
+  }, []);
 
   const confirmpasswordImage = confirmshowPassword
     ? require('../assets/password-show.png')//if false
@@ -157,20 +169,28 @@ function UpdateUser({navigation}) {
 
       if (newPassword == confirmpassword) {
         setcheckequal('');
-
+        const id=userDetail._id;
+        const token=userDetail.token;
+console.log(id);
         const response = await fetch(
-          `https://mobileback-diwisawi-production.up.railway.app/user/update-user/`, {
+          `https://mobileback-diwisawi-production.up.railway.app/user/update-user/`+id, {
           method: 'PUT',
           headers: {
+           
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            "x-access-token":token,
           },
           body: JSON.stringify({
+            first_name:firstName,
+            last_name:lastName,
+            mobile_number:phoneNumber,
+            email:email,
             password: newPassword,
           }),
         }
         );
-        navigation.navigate('Profile'); //I added this is for demostrating puropse remove from here after setting the api keep this code only in else statement
+       
         Alert.alert(
           'Sucess',
           'Sucessfully updated data!!!',
