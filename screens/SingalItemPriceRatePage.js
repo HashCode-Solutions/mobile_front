@@ -2,11 +2,6 @@ import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import React from 'react';
 import {
   LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
 } from "react-native-chart-kit";
 import Svg, { Rect } from 'react-native-svg';
 
@@ -59,7 +54,7 @@ function SingalItemPriceRatePage({ route, navigation }) {
           <Text>LKR{item.current_price}</Text>
         </View>
         <View>
-          
+
         </View>
       </View>
     </View>

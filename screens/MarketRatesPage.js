@@ -25,6 +25,7 @@ function MarketRatesPage({ route, navigation }) {
   // define hooks
   const [selectedId, setSelectedId] = useState('');
   const [marketRatesList, setMarketRatesList] = useState([]);
+  const [userDetail, setUserDetail] = useState({});
 
   const renderItem = ({ item }) => {
     const backgroundColor = 'white';
@@ -40,14 +41,16 @@ function MarketRatesPage({ route, navigation }) {
     );
   };
 
+  //get market price details
   const getMarketPricesList = async () => {
+    const token = userDetail.token;
     try {
       await fetch('https://mobileback-diwisawi-production.up.railway.app/market-price/get-market-prices', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0NTA5OGVmN2JiNGM3ZmQ3ZWEwMTFlIiwiZW1haWwiOiJqb2hua2tAZ21haWwuY29tIiwiaWF0IjoxNjgyMjY0NjMyLCJleHAiOjE2ODIyNzE4MzJ9.6umBHjwR4PKivX7SIdwXyHVtzZEadC5XSWl3ejLcfOg',
+          'x-access-token': token,
         },
       }).then(response => response.json())
         .then(data => setMarketRatesList(data))
@@ -59,6 +62,16 @@ function MarketRatesPage({ route, navigation }) {
 
   useEffect(() => {
     getMarketPricesList();
+  }, []);
+
+  useEffect(() => {
+    async function loadUserDetail() {
+      const storedUserDetail = await AsyncStorage.getItem('userDetail');
+      if (storedUserDetail) {
+        setUserDetail(await JSON.parse(storedUserDetail));
+      }
+    }
+    loadUserDetail();
   }, []);
 
   return (
