@@ -42,7 +42,7 @@ function HomePageContent({route, navigation}) {
       console.log(await JSON.parse(storedUserDetail));
     }
     loadUserDetail();
-  }, []);
+  }, [userDetail]);
 
   const getLoc = () => {
     GetLocation.getCurrentPosition({
