@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -26,18 +28,21 @@ import MarketRatesPage from './MarketRatesPage';
 //       });
 //   };
 
-function HomePageContent(props) {
+function HomePageContent({route, navigation}) {
   const [weatherData, setWeatherData] = useState(null);
   const [location, setLocation] = useState(null);
+  const [userDetail, setUserDetail] = useState(null);
 
-  const navigation = props.navigation;
-  const userDetails = {
-    name: 'john',
-    imgUrl: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-    token: 'sample',
-  };
-
-  console.log(userDetails.name);
+  useEffect(() => {
+    async function loadUserDetail() {
+      const storedUserDetail = await AsyncStorage.getItem('userDetail');
+      if (storedUserDetail) {
+        setUserDetail(await JSON.parse(storedUserDetail));
+      }
+      console.log(await JSON.parse(storedUserDetail));
+    }
+    loadUserDetail();
+  }, []);
 
   const getLoc = () => {
     GetLocation.getCurrentPosition({
@@ -85,17 +90,17 @@ function HomePageContent(props) {
     <ScrollView>
       <TouchableOpacity
         style={styles.profileImage}
-        onPress={() => navigation.navigate('Profile', {userDetails})}>
+        onPress={() => navigation.navigate('Profile', {userDetail})}>
         <Image
           style={styles.imageMedium}
           source={{
-            uri: userDetails.imgUrl,
+            uri: 'img',
           }}
         />
       </TouchableOpacity>
       <View style={styles.mainContainer}>
         <Text style={{color: '#000', fontSize: 25}}>
-          Good Morning {userDetails.name} 👋
+          Good Morning {userDetail ? userDetail.first_name : ''} 👋
         </Text>
         <View style={styles.weatherContainer}>
           {!weatherData ? (
@@ -141,7 +146,6 @@ function HomePageContent(props) {
 }
 
 function HomePage({route, navigation}) {
-  let {userDetails} = route.params;
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator

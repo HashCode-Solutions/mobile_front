@@ -1,27 +1,62 @@
-import React from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function ProfilePage({route}) {
-  //   let {userDetails} = route.params;
+function ProfilePage({route, navigation}) {
+  const [userDetail, setUserDetail] = useState(null);
+
+  useEffect(() => {
+    async function loadUserDetail() {
+      const storedUserDetail = await AsyncStorage.getItem('userDetail');
+      if (storedUserDetail) {
+        setUserDetail(await JSON.parse(storedUserDetail));
+      }
+      console.log(await JSON.parse(storedUserDetail));
+    }
+    loadUserDetail();
+  }, []);
+
+ 
   const userDetails = {
-    name: 'john',
+    name: 'John Cena',
     imgUrl: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
     token: 'sample',
   };
   return (
     <ScrollView>
       <View style={styles.mainContainer}>
-        <Image
-          style={styles.imageMedium}
-          source={{
-            uri: userDetails.imgUrl,
-          }}
-        />
+        <View style={styles.picContainer}>
+          <Image
+            style={styles.imageMedium}
+            source={{
+              uri: userDetails.imgUrl,
+            }}
+          />
+          <View style={styles.alig}>
+            <Text style={{color: '#000', fontSize: 25, marginLeft: 13}}>
+              {userDetail ? userDetail.first_name : ''}
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Update')}>
+            <Text
+              style={{
+                color: '#0d74d7',
+                fontSize: 15,
 
-        <Text
-          style={{color: '#000', fontSize: 25, marginTop: 30, marginLeft: 13}}>
-          {userDetails.name}
-        </Text>
+                alignItems: 'center',
+                marginTop: 30,
+              }}>
+              Edit profile
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.achieveContainer}>
           <Text
             style={{
@@ -58,6 +93,24 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 100,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  picContainer: {
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    borderRadius: 20,
+    marginTop: 20,
+    marginLeft: 20,
+    width: 180,
+    height: 250,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: Platform.OS === 'android' ? 10 : 0,
   },
 });
 
