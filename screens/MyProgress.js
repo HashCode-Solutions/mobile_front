@@ -1,5 +1,11 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 function MyProgress() {
   return (
@@ -15,6 +21,11 @@ function MyProgress() {
             }}>
             My Progress
           </Text>
+          <TouchableOpacity style={styles.pickProjectButton}>
+            <Text style={{fontSize: 25, color: '#fff'}}>Tomato</Text>
+            <Text style={{fontSize: 25, color: '#fff'}}>40%</Text>
+            <Text style={{fontSize: 25, color: '#fff'}}>{'⛳'}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -30,11 +41,23 @@ const styles = StyleSheet.create({
   },
   achieveContainer: {
     width: 400,
-    height: 50,
+    alignItems: 'center',
     backgroundColor: '#efefef',
     borderWidth: 1,
     borderColor: '#1b1b1b',
     marginTop: 50,
+  },
+
+  pickProjectButton: {
+    marginTop: 30,
+    height: 160,
+    width: '90%',
+    backgroundColor: '#636363',
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   imageMedium: {
     width: 120,
