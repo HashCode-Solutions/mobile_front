@@ -30,7 +30,7 @@ import MyProgress from './MyProgress';
 function HomePageContent({route, navigation}) {
   const [weatherData, setWeatherData] = useState(null);
   const [location, setLocation] = useState(null);
-  const [userDetail, setUserDetail] = useState({});
+  const [userDetail, setUserDetail] = useState(null);
 
   useEffect(() => {
     async function loadUserDetail() {
@@ -145,7 +145,6 @@ function HomePageContent({route, navigation}) {
 }
 
 function HomePage({route, navigation}) {
-  let {userDetails} = route.params;
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator

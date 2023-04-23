@@ -6,8 +6,10 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -24,13 +26,31 @@ import AllProjectsPage from './screens/AllProjectsPage';
 import ProjectPage from './screens/ProjectPage';
 import ProjectStepPage from './screens/ProjectStepPage';
 import ProfilePage from './screens/ProfilePage';
+import LoadingScreen from './screens/LoadingScreen';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
 const Stack = createNativeStackNavigator();
 
-const App: () => Node = () => {
+const App: () => Node = ({navigation}) => {
   const [userData, setUserData] = useState(null);
+
+  const [userDetail, setUserDetail] = useState(null);
+
+  useEffect(() => {
+    async function loadUserDetail() {
+      const storedUserDetail = await AsyncStorage.getItem('userDetail');
+      if (storedUserDetail) {
+        setUserDetail(await JSON.parse(storedUserDetail));
+      }
+      console.log(await JSON.parse(storedUserDetail));
+    }
+    loadUserDetail();
+  }, []);
+
+  useEffect(() => {}, [userDetail]);
+
+  const primaryPage = userDetail !== null ? 'Home' : 'Welcome';
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -40,7 +60,7 @@ const App: () => Node = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={primaryPage}>
         <Stack.Screen
           name="Welcome"
           component={WelcomePage}

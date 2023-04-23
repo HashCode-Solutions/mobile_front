@@ -37,8 +37,7 @@ function RegisterPage({navigation}) {
       last_name: lastName,
       mobile_number: mobile,
       email: email,
-      password1: password1,
-      password2: password2,
+      password: password1,
     };
 
     if (firstName == '' || lastName == '' || mobile == '' || password1 == '') {

@@ -10,7 +10,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function ProfilePage({route, navigation}) {
-  const [userDetail, setUserDetail] = useState({});
+  const [userDetail, setUserDetail] = useState(null);
 
   useEffect(() => {
     async function loadUserDetail() {
