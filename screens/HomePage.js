@@ -15,6 +15,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import GetLocation from 'react-native-get-location';
 import ProfilePage from './ProfilePage';
 import MyProgress from './MyProgress';
+import MarketRatesPage from './MarketRatesPage';
 
 //   const getMoviesFromApi = () => {
 //     return fetch('https://reactnative.dev/movies.json')
@@ -165,6 +166,7 @@ function HomePage({route, navigation}) {
         }}
       />
       <Tab.Screen name="Progress" component={MyProgress} />
+      <Tab.Screen name="Market Rates" component={MarketRatesPage} />
       <Tab.Screen name="Profile" component={ProfilePage} />
     </Tab.Navigator>
   );
