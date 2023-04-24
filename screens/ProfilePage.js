@@ -43,7 +43,7 @@ function ProfilePage({route, navigation}) {
       console.log(await JSON.parse(storedUserDetail));
     }
     loadUserDetail();
-  }, [userDetail]);
+  }, []);
 
   const userDetails = {
     name: 'John Cena',

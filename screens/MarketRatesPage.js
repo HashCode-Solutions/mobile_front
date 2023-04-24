@@ -1,8 +1,18 @@
-import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, StatusBar } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  FlatList,
+  StatusBar,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+const Item = ({item, onPress, backgroundColor, textColor}) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, {backgroundColor}]}>
     <View style={styles.fatlistRawOne}>
       {/* <Text style={[styles.title, { color: textColor }]}>{item.title}</Text> */}
       <Image
@@ -11,30 +21,31 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
           uri: item.item_image_url,
         }}
       />
-      <Text style={{ paddingTop: 10, color: textColor }}>LKR {item.current_price}</Text>
+      <Text style={{paddingTop: 10, color: textColor}}>
+        LKR {item.current_price}
+      </Text>
     </View>
     <View style={styles.fatlistRawOne}>
-      <Text style={{ color: textColor }}>{item.item}</Text>
-      <Text style={{ color: textColor }}>{item.description}</Text>
+      <Text style={{color: textColor}}>{item.item}</Text>
+      <Text style={{color: textColor}}>{item.description}</Text>
     </View>
   </TouchableOpacity>
 );
 
-function MarketRatesPage({ route, navigation }) {
-
+function MarketRatesPage({route, navigation}) {
   // define hooks
   const [selectedId, setSelectedId] = useState('');
   const [marketRatesList, setMarketRatesList] = useState([]);
   const [userDetail, setUserDetail] = useState({});
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     const backgroundColor = 'white';
     const color = 'black';
 
     return (
       <Item
         item={item}
-        onPress={() => navigation.navigate('Price Rates', { item })}
+        onPress={() => navigation.navigate('Price Rates', {item})}
         backgroundColor={backgroundColor}
         textColor={color}
       />
@@ -45,14 +56,18 @@ function MarketRatesPage({ route, navigation }) {
   const getMarketPricesList = async () => {
     const token = userDetail.token;
     try {
-      await fetch('https://mobileback-diwisawi-production.up.railway.app/market-price/get-market-prices', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'x-access-token': token,
+      await fetch(
+        'https://mobileback-diwisawi-production.up.railway.app/market-price/get-market-prices',
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'x-access-token': token,
+          },
         },
-      }).then(response => response.json())
+      )
+        .then(response => response.json())
         .then(data => setMarketRatesList(data))
         .catch(error => console.error(error));
     } catch (error) {
@@ -83,7 +98,7 @@ function MarketRatesPage({ route, navigation }) {
         extraData={selectedId}
       />
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
